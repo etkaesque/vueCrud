@@ -19,15 +19,18 @@ export default {
   },
   mutations: {
     SET_POSTS(state, posts) {
+     
       if (typeof posts == "undefined") {
         state.posts = [];
       } else {
         state.posts = posts.data;
         state.postsCount = posts.headers["x-total-count"];
         let pages = posts.headers["x-total-count"] / state.postsPerPage;
-        pages = Math.ceil(pages);
+
+        let roundPages = Math.ceil(pages);
+
         state.pages = state = Array.from(
-          { length: pages },
+          { length: roundPages },
           (_, index) => index + 1
         );
       }

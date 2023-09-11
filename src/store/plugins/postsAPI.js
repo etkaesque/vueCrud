@@ -1,9 +1,16 @@
 import axios from "axios";
 
+const instance = axios.create({
+  baseURL: `${SERVER_ADDR}/posts`,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 let postsAPI = (store) => {
   (store.fetchPosts = async (term = "", page) => {
     try {
-      const posts = await axios.get(`${SERVER_ADDR}/posts`, {
+      const posts = await instance.get(``, {
         params: {
           _expand: "author",
           q: term,
@@ -21,9 +28,7 @@ let postsAPI = (store) => {
   }),
     (store.fetchPostById = async (id) => {
       try {
-        const post = await axios.get(
-          `${SERVER_ADDR}/posts/${id}?_expand=author`
-        );
+        const post = await instance.get(`/${id}?_expand=author`);
         return post.data;
       } catch {
         throw new Error(
@@ -33,11 +38,7 @@ let postsAPI = (store) => {
     }),
     (store.createNewPost = async (newPostData) => {
       try {
-        const response = await axios.post(`${SERVER_ADDR}/posts`, newPostData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await instance.post(``, newPostData);
         return response;
       } catch {
         throw new Error("There was a problem while creating a post.");
@@ -45,14 +46,9 @@ let postsAPI = (store) => {
     }),
     (store.updatePost = async (updatedPostData) => {
       try {
-        const response = await axios.patch(
-          `${SERVER_ADDR}/posts/${updatedPostData.postId}`,
-          updatedPostData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+        const response = await instance.patch(
+          `${updatedPostData.postId}`,
+          updatedPostData
         );
         return response;
       } catch {
@@ -61,11 +57,8 @@ let postsAPI = (store) => {
     }),
     (store.deletePost = async (postId) => {
       try {
-        const response = await axios.delete(`${SERVER_ADDR}/posts/${postId}`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await instance.delete(`${postId}`);
+  
         return "Post deleted successfully";
       } catch {
         throw new Error("There was a problem while deleting a post.");

@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import authors from "./modules/authors";
 import posts from "./modules/posts";
 import modal from "./modules/modal";
+
 import notification from "./modules/notification";
 import authorsAPI from "./plugins/authorsAPI";
 import postsAPI from "./plugins/postsAPI";
@@ -15,6 +16,7 @@ const store = new Vuex.Store({
     posts,
     notification,
     modal,
+
   },
   plugins: [authorsAPI, postsAPI],
 });

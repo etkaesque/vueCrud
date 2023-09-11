@@ -1,17 +1,11 @@
 <template>
-
   <div class="overlay" @click="dismissModal">
-
     <div class="modal">
-    <KeepAlive>
-      <component :is="activeTab" />
-    </KeepAlive>
-    
+      <KeepAlive>
+        <component :is="activeTab" />
+      </KeepAlive>
+    </div>
   </div>
-
-  </div>
-  
-
 </template>
 
 <script>
@@ -25,18 +19,16 @@ export default {
     Edit,
   },
   computed: {
-    ...mapGetters(["activeTab"])
+    ...mapGetters(["activeTab"]),
   },
   methods: {
     ...mapMutations(["CONTROL_MODAL"]),
     dismissModal(event) {
-
-      if(event.target.className === "overlay") {
-        this.CONTROL_MODAL()
+      if (event.target.className === "overlay") {
+        this.CONTROL_MODAL();
       }
-
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -56,12 +48,11 @@ export default {
 
 .overlay {
   position: fixed;
-  top:0;
+  top: 0;
   width: 100vw;
   height: 100vh;
-  background-color:rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 10;
- 
 }
 
 legend {
@@ -69,14 +60,11 @@ legend {
   margin-bottom: 5px;
 }
 
-
-
 .success {
-  color:green;
+  color: green;
 }
 
 .failure {
   color: red;
 }
-
 </style>

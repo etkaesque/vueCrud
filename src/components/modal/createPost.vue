@@ -23,6 +23,7 @@
         rows="20"
         class="modalInput"
         maxlength="1000"
+        @input="checkContentLength"
         required
       ></textarea>
 
@@ -43,10 +44,14 @@
         {{ validationMessage }}
       </div>
 
+      <div class="warning" v-if="isContentTooLong">
+      {{ "You reached max allowed content" }}</div>
+
       <div class="btnWrapper">
         <button class="submit" @click="submit" type="submit">Post</button>
         <button @click="closeModal">Cancel</button>
       </div>
+
     </form>
   </div>
 </template>
@@ -68,6 +73,7 @@ export default {
       },
       validationMessage: "Please enter all fields",
       validationIsActive: false,
+      isContentTooLong: false,
     };
   },
   computed: {
@@ -99,6 +105,13 @@ export default {
     closeModal() {
       this.CONTROL_MODAL();
     },
+    checkContentLength() {
+      if (this.formData.body.length >= 1000) {
+        this.isContentTooLong = true;
+      } else {
+        this.isContentTooLong = false
+      }
+    }
   },
   async created() {
     await this.getAuthors();
@@ -124,6 +137,7 @@ export default {
   height: 100%;
 }
 
+
 form {
   display: flex;
   flex-direction: column;
@@ -148,5 +162,9 @@ label {
 
 .btnWrapper {
   height: 100%;
+}
+
+.warning {
+  color: red;
 }
 </style>

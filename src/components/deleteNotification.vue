@@ -38,18 +38,28 @@ export default {
       "deleteNotification",
       "searchTerm",
       "currentPage",
+      "posts"
     ]),
   },
   methods: {
-    ...mapMutations(["CONTROL_DELETE_NOTIFICATION", "SET_DELETE_NOTIFICATION"]),
+    ...mapMutations(["CONTROL_DELETE_NOTIFICATION", "SET_DELETE_NOTIFICATION", "SET_CURRENT_PAGE"]),
     ...mapActions(["deletePostInDb", "setPosts"]),
     async deletePost() {
-      await this.deletePostInDb(this.activePostId);
-      this.setPosts({ term: this.searchTerm, page: this.currentPage });
+      if (this.posts.length === 1 ) {
+
+        await this.deletePostInDb(this.activePostId);
+        this.SET_CURRENT_PAGE(this.currentPage - 1)
+        await this.setPosts({ term: this.searchTerm, page: this.currentPage - 1 });
+      } else {
+        await this.deletePostInDb(this.activePostId);
+        await this.setPosts({ term: this.searchTerm, page: this.currentPage  });
+      } 
+
+  
 
       if (this.$route.path !== "/" && this.deleteNotification.success == true) {
+        this.$router.replace("/");
         setTimeout(() => {
-          this.$router.replace("/");
           this.CONTROL_DELETE_NOTIFICATION();
           this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
         }, 2000);

@@ -1,7 +1,15 @@
 <template>
   <div>
+    <nav>
+      <router-link :to="`/authors`">Authors</router-link>
+      <router-link :to="`/posts`">Posts</router-link>
+    </nav>
+
     <router-view></router-view>
-    <GeneralNotification v-if="serverResponse.message.length !== 0"></GeneralNotification>
+
+    <GeneralNotification
+      v-if="serverResponse.message.length !== 0"
+    ></GeneralNotification>
     <DeleteNotification v-if="isDeleteNotificationActive"></DeleteNotification>
     <Modal v-if="modal"></Modal>
   </div>
@@ -10,9 +18,10 @@
 <script>
 import Vue from "vue";
 import GeneralNotification from "./components/notification.vue";
-import Modal from "./components/modal/modal.vue"
+import Modal from "./components/modal/modal.vue";
 import DeleteNotification from "./components/deleteNotification.vue";
-import vueDebounce from "vue-debounce"
+import vueDebounce from "vue-debounce";
+import Home from "./views/Home.vue";
 import { mapGetters } from "vuex";
 
 Vue.use(vueDebounce, {
@@ -23,23 +32,27 @@ export default {
   components: {
     GeneralNotification,
     Modal,
-    DeleteNotification
+    DeleteNotification,
+    Home,
   },
   computed: {
     ...mapGetters(["serverResponse", "modal", "isDeleteNotificationActive"]),
+  },
+  created() {
+    console.log("hit");
   },
 };
 </script>
 
 <style>
 .app {
-background-color: rgb(248, 253, 252);
-max-width: 1230px;
-margin-left: auto;
-margin-right: auto;
-height: 100vh;
-padding: 0px 20px;
-padding-bottom: 100px;
+  background-color: rgb(248, 253, 252);
+  max-width: 1230px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100vh;
+  padding: 0px 20px;
+  padding-bottom: 100px;
 }
 
 body {

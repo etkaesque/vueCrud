@@ -8,6 +8,6 @@ module.exports = {
   }, 
   define: {
     SERVER_ADDR: JSON.stringify('http://localhost:3000'),
-    POSTS_PER_PAGE: 10,
+    POSTS_PER_PAGE: 3,
   }
 };

@@ -3,7 +3,7 @@
     <router-link :to="`post/${post.id}`" class="post">
       <article>
         <div class="content">
-          <h3>{{ post.title }}</h3>
+          <h3 class="postTitle">{{ post.title }}</h3>
 
           <span>Written by: {{ post.author.name }}</span>
         </div>
@@ -12,17 +12,13 @@
           :created="post.created_at"
           :updated="post.updated_at"
         ></DateComponent>
-
-       
       </article>
     </router-link>
 
     <div class="postInteraction">
-          <button @click="activateDeleteNotification">Delete</button>
-          <button @click="openModal">Edit</button>
+      <button @click="activateDeleteNotification">Delete</button>
+      <button @click="openModal">Edit</button>
     </div>
-
-
   </div>
 </template>
 
@@ -37,18 +33,23 @@ export default {
     DateComponent,
   },
   methods: {
-    ...mapMutations(["CONTROL_MODAL", "CONTROL_ACTIVE_TAB","CONTROL_ACTIVE_POST","CONTROL_DELETE_NOTIFICATION"]),
+    ...mapMutations([
+      "CONTROL_MODAL",
+      "CONTROL_ACTIVE_TAB",
+      "CONTROL_ACTIVE_POST",
+      "CONTROL_DELETE_NOTIFICATION",
+      "SET_DELETE_NOTIFICATION",
+    ]),
     openModal() {
-      this.CONTROL_ACTIVE_POST(this.post.id)
-      this.CONTROL_ACTIVE_TAB("Edit")
+      this.CONTROL_ACTIVE_POST(this.post.id);
+      this.CONTROL_ACTIVE_TAB("Edit");
       this.CONTROL_MODAL();
     },
     activateDeleteNotification() {
-      this.CONTROL_ACTIVE_POST(this.post.id)
-      this.CONTROL_DELETE_NOTIFICATION()
-    
-
-    }
+      this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
+      this.CONTROL_ACTIVE_POST(this.post.id);
+      this.CONTROL_DELETE_NOTIFICATION();
+    },
   },
 };
 </script>
@@ -60,6 +61,7 @@ export default {
 }
 
 .article {
+  overflow: hidden;
   max-width: 200px;
   height: 250px;
   border: 0.5px solid;
@@ -71,26 +73,29 @@ export default {
 .article:hover {
   background-color: rgba(153, 205, 50, 0.3);
 }
-.postInteraction{
+.postInteraction {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-around;
   align-items: end;
-  
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  
 }
 
 button {
   width: 80px;
   height: 50px;
   margin: 0px;
+}
 
-
+.postTitle {
+  max-width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+   overflow: hidden;
 }
 </style>

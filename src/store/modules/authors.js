@@ -5,7 +5,7 @@ export default {
     currentAuthorId: "",
     authorSearchTerm: "",
     authorCurentPage: 1,
-    authorsPages: 0,
+    authorsPages: [],
     itemsPerPage: POSTS_PER_PAGE,
   },
   getters: {

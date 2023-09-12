@@ -4,7 +4,7 @@ export default {
     postsCount: 0,
     postsPerPage: POSTS_PER_PAGE,
     currentPost: "",
-    pages: 0,
+    pages: [],
     currentPage: 1,
     searchTerm: "",
   },

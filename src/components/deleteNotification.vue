@@ -71,6 +71,7 @@ export default {
       "SET_CURRENT_PAGE",
       "CONTROL_CURRENT_AUTHOR",
       "UPDATE_SERVER_RESPONSE",
+      "SET_AUTHOR_CURRENT_PAGE",
     ]),
     ...mapActions([
       "deletePostInDb",
@@ -79,15 +80,16 @@ export default {
       "getAuthors",
     ]),
     async deletePost() {
-      console.log(this.posts.length);
 
       if (this.posts.length === 1) {
         await this.deletePostInDb(this.activePostId);
 
+        this.SET_CURRENT_PAGE(this.currentPage - 1)
+
         if (this.deleteNotification.success) {
           await this.setPosts({
             term: this.searchTerm,
-            page: this.currentPage - 1,
+            page: this.currentPage,
           });
         }
       } else {
@@ -129,10 +131,12 @@ export default {
       if (this.authors.length === 1) {
         await this.deleteAuthorById(this.currentAuthorId);
 
+        this.SET_AUTHOR_CURRENT_PAGE(this.authorCurentPage - 1)
+
         if (this.deleteNotification.success) {
           await this.getAuthors({
             term: this.authorSearchTerm,
-            page: this.authorCurentPage - 1,
+            page: this.authorCurentPage,
           });
         }
       } else {

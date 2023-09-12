@@ -1,6 +1,6 @@
 <template>
-  <div class="overlay" @click="dismissModal">
-    <div class="modal">
+  <div  class="overlay" @click="dismissModal">
+    <div  class="modal">
       <KeepAlive>
         <component :is="activeTab" />
       </KeepAlive>
@@ -12,14 +12,19 @@
 import { mapGetters, mapMutations } from "vuex";
 import Create from "./createPost.vue";
 import Edit from "./editPost.vue";
+import EditAuthor from "./editAuthor.vue"
+import CreateAuthor from "./createAuthor.vue"
 
 export default {
   components: {
     Create,
     Edit,
+    EditAuthor,
+    CreateAuthor
+
   },
   computed: {
-    ...mapGetters(["activeTab"]),
+    ...mapGetters(["activeTab", "serverResponse"]),
   },
   methods: {
     ...mapMutations(["CONTROL_MODAL"]),
@@ -44,6 +49,9 @@ export default {
   padding: 10px 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .overlay {

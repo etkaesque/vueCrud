@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Main from "../components/main.vue";
+import Main from "../components/mainPosts.vue";
 import Header from "../components/header.vue";
 
 export default {
@@ -14,7 +14,7 @@ export default {
     return {
       heading: "Posts",
       isAuthors: false,
-    }
+    };
   },
   components: {
     Main,

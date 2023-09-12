@@ -10,8 +10,8 @@ const routes = [
     component: Home,
     name: Home,
     children: [
-      { path: "posts", component: Posts },
-      { path: "authors", component: Authors },
+      { path: "posts", component: Posts, name: "Posts" },
+      { path: "authors", component: Authors, name: "Authors" },
     ],
   },
 

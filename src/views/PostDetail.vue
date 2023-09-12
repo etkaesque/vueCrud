@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div v-if="this.serverResponse.success !== false" class="app">
     <Header></Header>
 
     <main class="main">
@@ -39,7 +39,7 @@ export default {
     Header,
   },
   computed: {
-    ...mapGetters(["currentPost"]),
+    ...mapGetters(["currentPost", "serverResponse"]),
   },
   methods: {
     ...mapActions(["getPostById"]),
@@ -48,6 +48,7 @@ export default {
       "CONTROL_ACTIVE_TAB",
       "CONTROL_ACTIVE_POST",
       "CONTROL_DELETE_NOTIFICATION",
+      "SET_CURRENT_POST",
     ]),
     openModal(type) {
       this.CONTROL_ACTIVE_POST(this.$route.params.id);

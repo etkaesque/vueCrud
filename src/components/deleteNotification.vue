@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="deleteNotification.success" class="notification success">
+    <div
+      v-if="deleteNotification.success === true"
+      class="notification success"
+    >
       <h2>Success</h2>
       <p>{{ deleteNotification.message }}</p>
     </div>
@@ -11,7 +14,7 @@
     </div>
 
     <div v-else class="overlay" @click="dismissFromOverlay">
-      <div class="notification">
+      <div v-if="activeFor === `Post`" class="notification">
         <div>
           <h2>Warning!</h2>
           <p>
@@ -21,6 +24,21 @@
 
         <div>
           <button @click="deletePost">Yes</button>
+          <button @click="DISMISS">No</button>
+        </div>
+      </div>
+
+      <div v-if="activeFor === `Author`" class="notification">
+        <div>
+          <h2>Warning!</h2>
+          <p>
+            This author will be deleted. Ar you sure you want to delete this
+            author?
+          </p>
+        </div>
+
+        <div>
+          <button @click="deleteAuthor">Yes</button>
           <button @click="DISMISS">No</button>
         </div>
       </div>
@@ -38,33 +56,62 @@ export default {
       "deleteNotification",
       "searchTerm",
       "currentPage",
-      "posts"
+      "posts",
+      "activeFor",
+      "currentAuthorId",
+      "authorSearchTerm",
+      "authorCurentPage",
+      "authors",
     ]),
   },
   methods: {
-    ...mapMutations(["CONTROL_DELETE_NOTIFICATION", "SET_DELETE_NOTIFICATION", "SET_CURRENT_PAGE"]),
-    ...mapActions(["deletePostInDb", "setPosts"]),
+    ...mapMutations([
+      "CONTROL_DELETE_NOTIFICATION",
+      "SET_DELETE_NOTIFICATION",
+      "SET_CURRENT_PAGE",
+      "CONTROL_CURRENT_AUTHOR",
+      "UPDATE_SERVER_RESPONSE",
+    ]),
+    ...mapActions([
+      "deletePostInDb",
+      "setPosts",
+      "deleteAuthorById",
+      "getAuthors",
+    ]),
     async deletePost() {
-      if (this.posts.length === 1 ) {
+      console.log(this.posts.length);
 
+      if (this.posts.length === 1) {
         await this.deletePostInDb(this.activePostId);
-        this.SET_CURRENT_PAGE(this.currentPage - 1)
-        await this.setPosts({ term: this.searchTerm, page: this.currentPage - 1 });
+
+        if (this.deleteNotification.success) {
+          await this.setPosts({
+            term: this.searchTerm,
+            page: this.currentPage - 1,
+          });
+        }
       } else {
         await this.deletePostInDb(this.activePostId);
-        await this.setPosts({ term: this.searchTerm, page: this.currentPage  });
-      } 
 
-  
+        if (this.deleteNotification.success) {
+          await this.setPosts({
+            term: this.searchTerm,
+            page: this.currentPage,
+          });
+        }
+      }
 
-      if (this.$route.path !== "/" && this.deleteNotification.success == true) {
-        this.$router.replace("/");
+      if (
+        this.$route.path !== "/posts" &&
+        this.deleteNotification.success == true
+      ) {
+        this.$router.replace("/posts");
         setTimeout(() => {
           this.CONTROL_DELETE_NOTIFICATION();
           this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
         }, 2000);
       } else if (
-        this.$route.path !== "/" &&
+        this.$route.path !== "/posts" &&
         this.deleteNotification.success == false
       ) {
         setTimeout(() => {
@@ -78,6 +125,33 @@ export default {
         }, 2000);
       }
     },
+    async deleteAuthor() {
+      if (this.authors.length === 1) {
+        await this.deleteAuthorById(this.currentAuthorId);
+
+        if (this.deleteNotification.success) {
+          await this.getAuthors({
+            term: this.authorSearchTerm,
+            page: this.authorCurentPage - 1,
+          });
+        }
+      } else {
+        await this.deleteAuthorById(this.currentAuthorId);
+
+        if (this.deleteNotification.success) {
+          await this.getAuthors({
+            term: this.authorSearchTerm,
+            page: this.authorCurentPage,
+          });
+        }
+      }
+
+      setTimeout(() => {
+        this.CONTROL_DELETE_NOTIFICATION();
+        this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
+      }, 2000);
+    },
+
     DISMISS() {
       this.CONTROL_DELETE_NOTIFICATION();
     },
@@ -86,6 +160,9 @@ export default {
         this.CONTROL_DELETE_NOTIFICATION();
       }
     },
+  },
+  created() {
+    this.UPDATE_SERVER_RESPONSE();
   },
 };
 </script>

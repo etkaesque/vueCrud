@@ -7,7 +7,7 @@
         >
       </div>
 
-      <button @click="openModal">Create Post</button>
+      <button @click="openModalCreatePost">Create Post</button>
     </div>
 
     <div v-else class="header-content">
@@ -18,7 +18,7 @@
       </div>
 
       <div>
-        <button @click="openModal">Create Author</button>
+        <button @click="openModalCreateAuthor">Create Author</button>
       </div>
     </div>
   </div>
@@ -34,10 +34,15 @@ export default {
   },
   methods: {
     ...mapMutations(["CONTROL_MODAL", "CONTROL_ACTIVE_TAB"]),
-    openModal() {
+    openModalCreatePost() {
       this.CONTROL_ACTIVE_TAB("Create");
       this.CONTROL_MODAL();
     },
+    openModalCreateAuthor() {
+      this.CONTROL_ACTIVE_TAB("CreateAuthor");
+      this.CONTROL_MODAL();
+
+    }
   },
 };
 </script>

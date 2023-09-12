@@ -1,10 +1,5 @@
 <template>
-  <div>
-    <nav>
-      <router-link :to="`/authors`">Authors</router-link>
-      <router-link :to="`/posts`">Posts</router-link>
-    </nav>
-
+  <div >
     <router-view></router-view>
 
     <GeneralNotification
@@ -38,9 +33,7 @@ export default {
   computed: {
     ...mapGetters(["serverResponse", "modal", "isDeleteNotificationActive"]),
   },
-  created() {
-    console.log("hit");
-  },
+
 };
 </script>
 

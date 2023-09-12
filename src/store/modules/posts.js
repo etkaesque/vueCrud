@@ -19,8 +19,8 @@ export default {
   },
   mutations: {
     SET_POSTS(state, posts) {
-     
       if (typeof posts == "undefined") {
+        
         state.posts = [];
       } else {
         state.posts = posts.data;
@@ -28,6 +28,7 @@ export default {
         let pages = posts.headers["x-total-count"] / state.postsPerPage;
 
         let roundPages = Math.ceil(pages);
+
 
         state.pages = state = Array.from(
           { length: roundPages },
@@ -52,11 +53,13 @@ export default {
       try {
         const posts = await this.fetchPosts(term, page);
         commit("SET_POSTS", posts);
+
       } catch (errorMessage) {
         dispatch("setServerResponse", {
           success: false,
           message: errorMessage,
         });
+
       }
     },
 
@@ -64,6 +67,7 @@ export default {
       try {
         const post = await this.fetchPostById(id);
         commit("SET_CURRENT_POST", post);
+  
       } catch (errorMessage) {
         dispatch("setServerResponse", {
           success: false,
@@ -78,7 +82,7 @@ export default {
 
         dispatch("setServerResponse", {
           success: true,
-          message: "Post created successfully",
+          message: response,
         });
       } catch (errorMessage) {
         dispatch("setServerResponse", {
@@ -94,7 +98,7 @@ export default {
 
         dispatch("setServerResponse", {
           success: true,
-          message: "Post updated successfully",
+          message: response,
         });
       } catch (errorMessage) {
         dispatch("setServerResponse", {

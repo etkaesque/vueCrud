@@ -1,19 +1,10 @@
 <template>
   <div class="article">
-    <router-link :to="`post/${post.id}`" class="post">
-      <article>
-        <div class="content">
-          <h3 class="postTitle">{{ post.title }}</h3>
+    <article>
+      <h2>{{ name }}</h2>
 
-          <span>Written by: {{ post.author.name }}</span>
-        </div>
-
-        <DateComponent
-          :created="post.created_at"
-          :updated="post.updated_at"
-        ></DateComponent>
-      </article>
-    </router-link>
+      <DateComponent :created="created" :updated="updated"></DateComponent>
+    </article>
 
     <div class="postInteraction">
       <button @click="activateDeleteNotification">Delete</button>
@@ -27,8 +18,24 @@ import { mapGetters, mapMutations } from "vuex";
 import DateComponent from "./date.vue";
 
 export default {
-  props: ["post"],
-
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+    id: {
+      type: Number,
+      required: true,
+    },
+    created: {
+      type: String,
+      required: true,
+    },
+    updated: {
+      type: String,
+      required: true,
+    },
+  },
   components: {
     DateComponent,
   },
@@ -36,20 +43,20 @@ export default {
     ...mapMutations([
       "CONTROL_MODAL",
       "CONTROL_ACTIVE_TAB",
-      "CONTROL_ACTIVE_POST",
+      "CONTROL_CURRENT_AUTHOR",
       "CONTROL_DELETE_NOTIFICATION",
       "SET_DELETE_NOTIFICATION",
       "SET_ACTIVE_FOR"
     ]),
     openModal() {
-      this.CONTROL_ACTIVE_POST(this.post.id);
-      this.CONTROL_ACTIVE_TAB("Edit");
+      this.CONTROL_CURRENT_AUTHOR(this.id);
+      this.CONTROL_ACTIVE_TAB("EditAuthor");
       this.CONTROL_MODAL();
     },
     activateDeleteNotification() {
-      this.SET_ACTIVE_FOR("Post")
+      this.SET_ACTIVE_FOR("Author")
       this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
-      this.CONTROL_ACTIVE_POST(this.post.id);
+      this.CONTROL_CURRENT_AUTHOR(this.id);
       this.CONTROL_DELETE_NOTIFICATION();
     },
   },

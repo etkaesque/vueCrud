@@ -38,26 +38,26 @@ let postsAPI = (store) => {
     }),
     (store.createNewPost = async (newPostData) => {
       try {
-        const response = await instance.post(``, newPostData);
-        return response;
+        await instance.post(``, newPostData);
+        return "Post created successfully";
       } catch {
         throw new Error("There was a problem while creating a post.");
       }
     }),
     (store.updatePost = async (updatedPostData) => {
       try {
-        const response = await instance.patch(
+        await instance.patch(
           `${updatedPostData.postId}`,
           updatedPostData
         );
-        return response;
+        return "Post updated successfully";
       } catch {
         throw new Error("There was a problem while updating a post.");
       }
     }),
     (store.deletePost = async (postId) => {
       try {
-        const response = await instance.delete(`${postId}`);
+        await instance.delete(`${postId}`);
   
         return "Post deleted successfully";
       } catch {

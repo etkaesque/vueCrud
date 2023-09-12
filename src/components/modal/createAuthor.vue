@@ -1,55 +1,24 @@
 <template>
   <div class="modalWrapper">
     <form action="submit">
-      <legend>Create a new post</legend>
+      <legend>Create new author</legend>
 
-      <label for="title">Title</label>
+      <label for="name">Name</label>
       <input
-        v-model="formData.title"
-        name="title"
-        id="title"
+        v-model="formData.name"
+        name="name"
+        id="name"
         type="text"
         class="modalInput"
         maxlength="50"
-        required
       />
-
-      <label for="content">Content</label>
-      <textarea
-        v-model="formData.body"
-        name="content"
-        id="content"
-        cols="50"
-        rows="20"
-        class="modalInput"
-        maxlength="1000"
-        @input="checkContentLength"
-        required
-      ></textarea>
-
-      <label for="author">Author</label>
-      <select
-        v-model="formData.authorId"
-        class="modalInput"
-        name="author"
-        id="author"
-        required
-      >
-        <option v-for="author in authors" :value="author.id">
-          {{ author.name }}
-        </option>
-      </select>
 
       <div v-if="validationIsActive">
         {{ validationMessage }}
       </div>
 
-      <div class="warning" v-if="isContentTooLong">
-        {{ "You reached max allowed content" }}
-      </div>
-
       <div class="btnWrapper">
-        <button class="submit" @click="submit" type="submit">Post</button>
+        <button class="submit" @click="submit" type="submit">Create</button>
         <button @click="closeModal">Cancel</button>
       </div>
     </form>
@@ -58,47 +27,49 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import authors from "../../store/modules/authors";
 
 export default {
-  name: "Create",
+  name: "CreateAuthor",
   data() {
     return {
       formData: {
-        title: "",
-        body: "",
+        name: "",
         created_at: new Date().toISOString().split("T")[0],
         updated_at: new Date().toISOString().split("T")[0],
-        authorId: "",
       },
       validationMessage: "Please enter all fields",
       validationIsActive: false,
-      isContentTooLong: false,
     };
   },
   computed: {
-    ...mapGetters(["authors", "searchTerm", "currentPage"]),
+    ...mapGetters([
+      "serverResponse",
+      "author",
+      "authorSearchTerm",
+      "authorCurentPage",
+    ]),
   },
   methods: {
     ...mapMutations(["CONTROL_MODAL", "UPDATE_SERVER_RESPONSE"]),
-    ...mapActions(["getAuthors", "createNewPostInDb", "setPosts"]),
+    ...mapActions(["getAuthors", "updateAuthor", "createAuthor"]),
     async submit(e) {
       e.preventDefault();
 
-      if (
-        this.formData.title.trim() == "" ||
-        this.formData.body.trim() == "" ||
-        this.formData.authorId == ""
-      ) {
+      if (this.formData.name.trim() == "") {
         this.validationIsActive = true;
       } else {
         this.validationIsActive = false;
-        await this.createNewPostInDb(this.formData);
-        await this.setPosts({ term: this.searchTerm, page: this.currentPage });
+
+        await this.createAuthor(this.formData);
+        
+        await this.getAuthors({
+          term: this.authorSearchTerm,
+          page: this.authorCurentPage,
+        });
 
         this.CONTROL_MODAL();
+
         setTimeout(() => {
-          "hit"
           this.UPDATE_SERVER_RESPONSE();
         }, 3000);
       }
@@ -106,16 +77,6 @@ export default {
     closeModal() {
       this.CONTROL_MODAL();
     },
-    checkContentLength() {
-      if (this.formData.body.length >= 1000) {
-        this.isContentTooLong = true;
-      } else {
-        this.isContentTooLong = false;
-      }
-    },
-  },
-  async created() {
-    await this.getAuthors({});
   },
 };
 </script>
@@ -162,9 +123,5 @@ label {
 
 .btnWrapper {
   height: 100%;
-}
-
-.warning {
-  color: red;
 }
 </style>

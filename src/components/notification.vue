@@ -10,6 +10,7 @@
       <h2>Error</h2>
 
       <p>{{ serverResponse.message }}</p>
+      <button @click="dismissErr">Close</button>
     </div>
   </div>
 </template>

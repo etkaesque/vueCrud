@@ -1,6 +1,11 @@
 <template>
   <div v-if="this.serverResponse.success !== false" class="app">
-    <Header></Header>
+    <Header
+      :heading="heading"
+      :link="link"
+      :button="button"
+      @openModal="openModalCreatePost"
+    ></Header>
 
     <main class="main">
       <div v-if="currentPost">
@@ -34,6 +39,15 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 import DateComponent from "../components/date.vue";
 import Header from "../components/header.vue";
 export default {
+  data() {
+    return {
+      type: "Posts",
+      heading: "Posts",
+      isAuthors: true,
+      link: `/posts`,
+      button: "Create Post",
+    };
+  },
   components: {
     DateComponent,
     Header,
@@ -42,13 +56,14 @@ export default {
     ...mapGetters(["currentPost", "serverResponse"]),
   },
   methods: {
-    ...mapActions(["getPostById"]),
+    ...mapActions(["getPostById", "changePostPage", "setPosts"]),
     ...mapMutations([
       "CONTROL_MODAL",
       "CONTROL_ACTIVE_TAB",
       "CONTROL_ACTIVE_POST",
       "CONTROL_DELETE_NOTIFICATION",
       "SET_CURRENT_POST",
+      "SET_CURRENT_PAGE",
     ]),
     openModal(type) {
       this.CONTROL_ACTIVE_POST(this.$route.params.id);
@@ -58,6 +73,16 @@ export default {
     activateDeleteNotification() {
       this.CONTROL_ACTIVE_POST(this.$route.params.id);
       this.CONTROL_DELETE_NOTIFICATION();
+    },
+
+    async changePostPage(page) {
+      this.SET_CURRENT_PAGE(page);
+
+      await this.setPosts({ term: this.searchTerm, page: page });
+    },
+    openModalCreatePost() {
+      this.CONTROL_ACTIVE_TAB("Create");
+      this.CONTROL_MODAL();
     },
   },
   async created() {

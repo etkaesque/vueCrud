@@ -46,10 +46,7 @@ let postsAPI = (store) => {
     }),
     (store.updatePost = async (updatedPostData) => {
       try {
-        await instance.patch(
-          `${updatedPostData.postId}`,
-          updatedPostData
-        );
+        await instance.patch(`${updatedPostData.postId}`, updatedPostData);
         return "Post updated successfully";
       } catch {
         throw new Error("There was a problem while updating a post.");
@@ -58,7 +55,7 @@ let postsAPI = (store) => {
     (store.deletePost = async (postId) => {
       try {
         await instance.delete(`${postId}`);
-  
+
         return "Post deleted successfully";
       } catch {
         throw new Error("There was a problem while deleting a post.");

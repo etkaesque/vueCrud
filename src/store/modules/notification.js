@@ -24,11 +24,8 @@ export default {
       state.deleteNotification = deleteNotification;
     },
     UPDATE_SERVER_RESPONSE(state, response) {
-      console.log("labas");
-
       if (response === undefined) {
         state.serverResponse = { success: "", message: "" };
-        console.log("hillo", state.serverResponse);
       } else {
         state.serverResponse = response;
       }

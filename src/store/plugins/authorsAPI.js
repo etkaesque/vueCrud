@@ -12,7 +12,7 @@ let authorsAPI = (store) => {
     try {
       const author = await instance.get(`${id}`);
       return author.data;
-    } catch (err) {
+    } catch  {
       throw new Error(
         "Failed to fetch data from a server. Please try again later."
       );
@@ -28,7 +28,7 @@ let authorsAPI = (store) => {
           },
         });
         return authors;
-      } catch (err) {
+      } catch  {
         throw new Error(
           "Failed to fetch data from a server. Please try again later."
         );

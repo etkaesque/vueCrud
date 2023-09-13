@@ -21,8 +21,12 @@ export default {
       try {
         const authors = await this.fetchAuthors(term, page);
         commit("SET_AUTHORS", authors);
-      } catch (err) {
-        dispatch("set_error", err);
+      } catch (errorMessage) {
+        dispatch("setServerResponse", {
+          success: false,
+          message: errorMessage,
+        });
+        commit("SET_AUTHORS");
       }
     },
 
@@ -30,8 +34,12 @@ export default {
       try {
         const author = await this.fetchAuthorById(id);
         commit("SET_AUTHOR", author);
-      } catch (err) {
-        dispatch("set_error", err);
+      } catch (errorMessage) {
+        dispatch("setServerResponse", {
+          success: false,
+          message: errorMessage,
+        });
+        commit("SET_AUTHOR", "");
       }
     },
 
@@ -87,13 +95,17 @@ export default {
       state.author = author;
     },
     SET_AUTHORS(state, authors) {
-      state.authors = authors.data;
-      let pages = authors.headers["x-total-count"] / state.itemsPerPage;
-      let roundPages = Math.ceil(pages);
-      state.authorsPages = state = Array.from(
-        { length: roundPages },
-        (_, index) => index + 1
-      );
+      if (authors == undefined) {
+        state.authors = [];
+      } else {
+        state.authors = authors.data;
+        let pages = authors.headers["x-total-count"] / state.itemsPerPage;
+        let roundPages = Math.ceil(pages);
+        state.authorsPages = state = Array.from(
+          { length: roundPages },
+          (_, index) => index + 1
+        );
+      }
     },
     CONTROL_CURRENT_AUTHOR(state, id) {
       state.currentAuthorId = id;

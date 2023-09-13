@@ -2,7 +2,6 @@
   <div class="article">
     <article>
       <h2>{{ name }}</h2>
-
       <DateComponent :created="created" :updated="updated"></DateComponent>
     </article>
 
@@ -14,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapMutations } from "vuex";
 import DateComponent from "./date.vue";
 
 export default {
@@ -46,15 +45,16 @@ export default {
       "CONTROL_CURRENT_AUTHOR",
       "CONTROL_DELETE_NOTIFICATION",
       "SET_DELETE_NOTIFICATION",
-      "SET_ACTIVE_FOR"
+      "SET_ACTIVE_FOR",
     ]),
     openModal() {
       this.CONTROL_CURRENT_AUTHOR(this.id);
       this.CONTROL_ACTIVE_TAB("EditAuthor");
+      this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
       this.CONTROL_MODAL();
     },
     activateDeleteNotification() {
-      this.SET_ACTIVE_FOR("Author")
+      this.SET_ACTIVE_FOR("Author");
       this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
       this.CONTROL_CURRENT_AUTHOR(this.id);
       this.CONTROL_DELETE_NOTIFICATION();

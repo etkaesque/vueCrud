@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <router-view></router-view>
 
     <GeneralNotification
@@ -13,7 +13,7 @@
 <script>
 import Vue from "vue";
 import GeneralNotification from "./components/notification.vue";
-import Modal from "./components/modal/modal.vue";
+import Modal from "./components/modal.vue";
 import DeleteNotification from "./components/deleteNotification.vue";
 import vueDebounce from "vue-debounce";
 import Home from "./views/Home.vue";
@@ -33,7 +33,6 @@ export default {
   computed: {
     ...mapGetters(["serverResponse", "modal", "isDeleteNotificationActive"]),
   },
-
 };
 </script>
 
@@ -50,5 +49,11 @@ export default {
 
 body {
   margin: 0px;
+}
+
+main div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 </style>

@@ -1,20 +1,8 @@
 <template>
   <div class="searchWrapper">
-    <div v-if="type === `Posts`" class="search">
+    <div class="search">
       <input
-        v-debounce:600ms="searchPost"
-        v-model="searchTerm"
-        name="search"
-        id="name"
-        type="text"
-        @keydown.enter.prevent
-        placeholder="search for a post"
-      />
-    </div>
-
-    <div v-if="type === `Authors`" class="search">
-      <input
-        v-debounce:600ms="searchAuthor"
+        v-debounce:600ms="search"
         v-model="searchTerm"
         name="search"
         id="name"
@@ -27,8 +15,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
-
 export default {
   props: {
     type: {
@@ -40,33 +26,11 @@ export default {
       searchTerm: "",
     };
   },
-  computed: {
-    ...mapGetters([
-      "currentPage",
-      "postsCount",
-      "postsPerPage",
-      "authorCurentPage",
-      "authorSearchTerm",
-    ]),
-  },
+  computed: {},
+  emits: ["search"],
   methods: {
-    ...mapActions(["setPosts", "getAuthors"]),
-    ...mapMutations([
-      "UPDATE_TERM",
-      "SET_CURRENT_PAGE",
-      "SET_AUTHOR_SEARCH_TERM",
-    ]),
-
-    async searchPost() {
-      this.UPDATE_TERM(this.searchTerm);
-      await this.setPosts({ term: this.searchTerm, page: this.currentPage });
-    },
-    async searchAuthor() {
-      this.SET_AUTHOR_SEARCH_TERM(this.searchTerm);
-      await this.getAuthors({
-        term: this.searchTerm,
-        page: this.authorCurentPage,
-      });
+    search() {
+      this.$emit("search", this.searchTerm);
     },
   },
 };

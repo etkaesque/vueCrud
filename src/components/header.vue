@@ -1,25 +1,13 @@
 <template>
   <div class="header">
-    <div v-if="!isAuthors" class="header-content">
+    <div class="header-content">
       <div>
-        <router-link :to="`/posts`" class="link"
+        <router-link :to="link" class="link"
           ><h1>{{ heading }}</h1></router-link
         >
       </div>
 
-      <button @click="openModalCreatePost">Create Post</button>
-    </div>
-
-    <div v-else class="header-content">
-      <div>
-        <router-link :to="`/authors`" class="link"
-          ><h1>{{ heading }}</h1></router-link
-        >
-      </div>
-
-      <div>
-        <button @click="openModalCreateAuthor">Create Author</button>
-      </div>
+      <button @click="openModal">{{ button }}</button>
     </div>
   </div>
 </template>
@@ -31,18 +19,14 @@ export default {
   props: {
     heading: String,
     isAuthors: Boolean,
+    link: String,
+    button: String,
   },
+  emits: ["openModal"],
   methods: {
-    ...mapMutations(["CONTROL_MODAL", "CONTROL_ACTIVE_TAB"]),
-    openModalCreatePost() {
-      this.CONTROL_ACTIVE_TAB("Create");
-      this.CONTROL_MODAL();
+    openModal() {
+      this.$emit("openModal");
     },
-    openModalCreateAuthor() {
-      this.CONTROL_ACTIVE_TAB("CreateAuthor");
-      this.CONTROL_MODAL();
-
-    }
   },
 };
 </script>

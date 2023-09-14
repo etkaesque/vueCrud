@@ -2,9 +2,9 @@
   <div class="header">
     <div class="header-content">
       <div>
-        <router-link :to="link" class="link"
-          ><h1>{{ heading }}</h1></router-link
-        >
+        <router-link :to="link" class="link">
+          <h1>{{ heading }}</h1>
+        </router-link>
       </div>
 
       <button @click="openModal">{{ button }}</button>
@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
-
 export default {
   props: {
     heading: String,

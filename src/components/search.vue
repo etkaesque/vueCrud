@@ -16,17 +16,11 @@
 
 <script>
 export default {
-  props: {
-    type: {
-      String,
-    },
-  },
   data() {
     return {
       searchTerm: "",
     };
   },
-  computed: {},
   emits: ["search"],
   methods: {
     search() {

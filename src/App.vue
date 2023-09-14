@@ -7,21 +7,20 @@
     ></GeneralNotification>
     <DeleteNotification v-if="isDeleteNotificationActive"></DeleteNotification>
     <Modal v-if="modal"></Modal>
+    <Loader v-if="isLoading"></Loader>
+    
   </div>
 </template>
 
 <script>
 import Vue from "vue";
+import Loader from "./components/loader.vue"
 import GeneralNotification from "./components/notification.vue";
 import Modal from "./components/modal.vue";
 import DeleteNotification from "./components/deleteNotification.vue";
-import vueDebounce from "vue-debounce";
+
 import Home from "./views/Home.vue";
 import { mapGetters } from "vuex";
-
-Vue.use(vueDebounce, {
-  listenTo: ["input", "keyup"],
-});
 
 export default {
   components: {
@@ -29,9 +28,10 @@ export default {
     Modal,
     DeleteNotification,
     Home,
+    Loader
   },
   computed: {
-    ...mapGetters(["serverResponse", "modal", "isDeleteNotificationActive"]),
+    ...mapGetters(["isLoading", "serverResponse", "modal", "isDeleteNotificationActive"]),
   },
 };
 </script>

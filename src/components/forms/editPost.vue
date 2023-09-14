@@ -76,7 +76,7 @@ export default {
       ) {
         this.validationMessage = "Please enter all fields";
         this.validationIsActive = true;
-      } else if (!/^[a-zA-Z]+$/.test(this.formData.title)) {
+      } else if (!/^[a-zA-Z.]+(?:\s[a-zA-Z.]+)*$/.test(this.formData.title)) {
         this.validationMessage = "Title should contain only letters";
         this.validationIsActive = true;
       } else if (this.formData.title.length < 3) {

@@ -33,14 +33,8 @@ export default {
     type: {
       String,
     },
-    dinamicArray: {
-      Object,
-    },
     fullArray: {
       Object,
-    },
-    lastPage: {
-      Number,
     },
     currentPage: {
       Number,
@@ -54,9 +48,43 @@ export default {
       "authorsPages",
       "authorSearchTerm",
     ]),
+    lastPage() {
+      return this.fullArray.slice(-1)[0];
+    },
+    arrayFirst() {
+      return this.currentPage - 2;
+    },
+    arrayLast() {
+      return this.currentPage + 1;
+    },
+    dinamicArray() {
+      if (this.fullArray.length < 6) {
+        return this.fullArray;
+      } else {
+        let array = [];
+        this.fullArray.forEach((item) => {
+          array.push(item);
+        });
+
+        let first = this.arrayFirst;
+        let last = this.arrayLast;
+
+        if (first < 1) {
+          first = 0;
+          last = last + 1;
+        }
+        if (last > array[array.length - 2]) {
+          last = array[array.length - 1];
+          first = first - 1;
+        }
+
+        let customArray = array.slice(first, last);
+
+        return customArray;
+      }
+    },
   },
   emits: ["changePage"],
-
   methods: {
     async changePage(page) {
       this.$emit("changePage", page);

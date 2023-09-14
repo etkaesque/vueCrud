@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest --environment jsdom"
   },
   "dependencies": {
     "axios": "^1.5.0",
+    "jsdom": "^22.1.0",
     "vite": "^4.0.4",
     "vite-plugin-vue2": "^2.0.3",
     "vue": "^2.7.14",
@@ -16,5 +18,10 @@
     "vue-router": "^3.6.5",
     "vue-template-compiler": "^2.7.14",
     "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@vue/server-test-utils": "^1.3.0",
+    "@vue/test-utils": "^1.3.6",
+    "vitest": "^0.34.4"
   }
 }

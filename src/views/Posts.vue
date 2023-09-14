@@ -10,8 +10,6 @@
     <Pagination
       :currentPage="currentPage"
       :type="type"
-      :lastPage="lastPage"
-      :dinamicArray="postsArray"
       :fullArray="pages"
       @changePage="changePostPage"
     ></Pagination>
@@ -67,41 +65,6 @@ export default {
       "searchTerm",
       "currentPage",
     ]),
-    lastPage() {
-      return this.pages.slice(-1)[0];
-    },
-    postsArrayFirst() {
-      return this.currentPage - 2;
-    },
-    postsArrayLast() {
-      return this.currentPage + 1;
-    },
-    postsArray() {
-      if (this.pages.length < 6) {
-        return this.pages;
-      } else {
-        let array = [];
-        this.pages.forEach((item) => {
-          array.push(item);
-        });
-
-        let first = this.postsArrayFirst;
-        let last = this.postsArrayLast;
-
-        if (first < 1) {
-          first = 0;
-          last = last + 1;
-        }
-        if (last > array[array.length - 2]) {
-          last = array[array.length - 1];
-          first = first - 1;
-        }
-
-        let customArray = array.slice(first, last);
-
-        return customArray;
-      }
-    },
   },
   methods: {
     ...mapActions(["changePostPage", "setPosts"]),

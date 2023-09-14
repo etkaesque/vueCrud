@@ -28,7 +28,6 @@ import DateComponent from "./date.vue";
 
 export default {
   props: ["post"],
-
   components: {
     DateComponent,
   },

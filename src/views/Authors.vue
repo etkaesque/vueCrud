@@ -10,8 +10,6 @@
     <Pagination
       :currentPage="authorCurentPage"
       :type="type"
-      :lastPage="lastAuthPage"
-      :dinamicArray="authArray"
       :fullArray="authorsPages"
       @changePage="changeAuthorPage"
     ></Pagination>
@@ -75,41 +73,6 @@ export default {
       "authorCurentPage",
       "authorSearchTerm",
     ]),
-    lastAuthPage() {
-      return this.authorsPages.slice(-1)[0];
-    },
-    authArrayFirst() {
-      return this.authorCurentPage - 2;
-    },
-    authArrayLast() {
-      return this.authorCurentPage + 1;
-    },
-    authArray() {
-      let array = [];
-
-      if (this.authorsPages.length < 6) {
-        return this.authorsPages;
-      } else {
-        this.authorsPages.forEach((item) => {
-          array.push(item);
-        });
-
-        let first = this.authArrayFirst;
-        let last = this.authArrayLast;
-
-        if (first < 1) {
-          first = 0;
-          last = last + 1;
-        }
-        if (last > array[array.length - 2]) {
-          last = array[array.length - 1];
-          first = first - 1;
-        }
-
-        let customArray = array.slice(first, last);
-        return customArray;
-      }
-    },
   },
   methods: {
     ...mapActions(["changeAuthorPage", "getAuthors"]),

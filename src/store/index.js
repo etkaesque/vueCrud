@@ -5,6 +5,7 @@ import posts from "./modules/posts";
 import modal from "./modules/modal";
 
 import notification from "./modules/notification";
+import loader from "./modules/loader";
 import authorsAPI from "./plugins/authorsAPI";
 import postsAPI from "./plugins/postsAPI";
 
@@ -16,7 +17,7 @@ const store = new Vuex.Store({
     posts,
     notification,
     modal,
-
+    loader
   },
   plugins: [authorsAPI, postsAPI],
 });

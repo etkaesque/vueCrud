@@ -29,6 +29,8 @@
         </div>
       </div>
 
+      <Loader v-else-if="isLoading"></Loader>
+
       <div v-else>This Article doesn't exist</div>
     </main>
   </div>
@@ -38,6 +40,8 @@
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import DateComponent from "../components/date.vue";
 import Header from "../components/header.vue";
+import Loader from "../components/loader.vue"
+
 export default {
   data() {
     return {
@@ -51,9 +55,10 @@ export default {
   components: {
     DateComponent,
     Header,
+    Loader
   },
   computed: {
-    ...mapGetters(["currentPost", "serverResponse"]),
+    ...mapGetters(["currentPost", "isLoading", "serverResponse"]),
   },
   methods: {
     ...mapActions(["getPostById", "changePostPage", "setPosts"]),

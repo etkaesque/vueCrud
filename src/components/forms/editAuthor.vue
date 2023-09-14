@@ -59,7 +59,7 @@ export default {
       if (this.formData.name.trim() == "") {
         this.validationMessage = "Please enter all fields"
         this.validationIsActive = true;
-      } else if (!/^[a-zA-Z]+$/.test(this.formData.name)) {
+      } else if (!/^[a-zA-Z.]+(?:\s[a-zA-Z.]+)*$/.test(this.formData.name)) {
         this.validationMessage = "Name should contain letters only"
         this.validationIsActive = true;
       } else if(this.formData.name.length < 3) {

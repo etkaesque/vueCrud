@@ -80,11 +80,10 @@ export default {
       "getAuthors",
     ]),
     async deletePost() {
-
       if (this.posts.length === 1) {
         await this.deletePostInDb(this.activePostId);
 
-        this.SET_CURRENT_PAGE(this.currentPage - 1)
+        this.SET_CURRENT_PAGE(this.currentPage - 1);
 
         if (this.deleteNotification.success) {
           await this.setPosts({
@@ -131,7 +130,7 @@ export default {
       if (this.authors.length === 1) {
         await this.deleteAuthorById(this.currentAuthorId);
 
-        this.SET_AUTHOR_CURRENT_PAGE(this.authorCurentPage - 1)
+        this.SET_AUTHOR_CURRENT_PAGE(this.authorCurentPage - 1);
 
         if (this.deleteNotification.success) {
           await this.getAuthors({
@@ -171,7 +170,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .notification {
   position: fixed;
   top: 50%;
@@ -181,11 +180,21 @@ export default {
   padding: 10px 20px;
   border: 1px solid #ccc;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  z-index: 50;
   display: flex;
   flex-direction: column;
   min-width: 200px;
   min-height: 200px;
+}
+
+.loaderWrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  z-index: 50;
+  padding: 20px;
 }
 
 .success {

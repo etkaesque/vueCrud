@@ -19,6 +19,7 @@ export default {
   actions: {
     async getAuthors({ commit, dispatch }, { term = "", page = 1 }) {
       try {
+        dispatch("setLoading");
         const authors = await this.fetchAuthors(term, page);
         commit("SET_AUTHORS", authors);
       } catch (errorMessage) {
@@ -27,11 +28,14 @@ export default {
           message: errorMessage,
         });
         commit("SET_AUTHORS");
+      } finally {
+        dispatch("setLoading");
       }
     },
 
     async getAuthorById({ commit, dispatch }, id) {
       try {
+        dispatch("setLoading");
         const author = await this.fetchAuthorById(id);
         commit("SET_AUTHOR", author);
       } catch (errorMessage) {
@@ -75,8 +79,8 @@ export default {
     },
     async deleteAuthorById({ commit, dispatch }, id) {
       try {
+        dispatch("setLoading");
         const response = await this.deleteAuthorInDb(id);
-
         dispatch("setDeleteNotification", {
           success: true,
           message: response,
@@ -85,7 +89,8 @@ export default {
         dispatch("setDeleteNotification", {
           success: false,
           message: errorMessage,
-        });
+        });      } finally {
+        dispatch("setLoading");
       }
     },
   },

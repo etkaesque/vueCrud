@@ -4,7 +4,11 @@ import Vuex from "vuex";
 import VueRouter from "vue-router";
 import store from "../src/store/index.js";
 import Routes from "./routes/routes";
+import vueDebounce from "vue-debounce";
 
+Vue.use(vueDebounce, {
+  listenTo: ["input", "keyup"],
+});
 Vue.use(Vuex);
 Vue.use(VueRouter);
 

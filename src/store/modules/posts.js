@@ -49,6 +49,7 @@ export default {
   actions: {
     async setPosts({ commit, dispatch }, { term = "", page = 1 }) {
       try {
+        dispatch("setLoading");
         const posts = await this.fetchPosts(term, page);
         commit("SET_POSTS", posts);
       } catch (errorMessage) {
@@ -58,11 +59,14 @@ export default {
           message: errorMessage,
         });
         commit("SET_POSTS");
+      } finally {
+        dispatch("setLoading");
       }
     },
 
     async getPostById({ commit, dispatch }, id) {
       try {
+        dispatch("setLoading");
         const post = await this.fetchPostById(id);
         commit("SET_CURRENT_POST", post);
       } catch (errorMessage) {
@@ -73,11 +77,14 @@ export default {
         });
         commit("SET_AUTHORS");
         commit("SET_CURRENT_POST", "");
+      } finally {
+        dispatch("setLoading");
       }
     },
 
     async createNewPostInDb({ commit, dispatch }, newPostData) {
       try {
+        dispatch("setLoading");
         const response = await this.createNewPost(newPostData);
 
         dispatch("setServerResponse", {
@@ -89,11 +96,14 @@ export default {
           success: false,
           message: errorMessage,
         });
+      } finally {
+        dispatch("setLoading");
       }
     },
 
     async updatePostInDb({ commit, dispatch }, updatedPostData) {
       try {
+        dispatch("setLoading");
         const response = await this.updatePost(updatedPostData);
 
         dispatch("setServerResponse", {
@@ -101,15 +111,19 @@ export default {
           message: response,
         });
       } catch (errorMessage) {
+        dispatch("setLoading");
         dispatch("setServerResponse", {
           success: false,
           message: errorMessage,
         });
+      } finally {
+        dispatch("setLoading");
       }
     },
 
     async deletePostInDb({ commit, dispatch }, post) {
       try {
+        dispatch("setLoading");
         const response = await this.deletePost(post);
 
         dispatch("setDeleteNotification", {
@@ -121,6 +135,8 @@ export default {
           success: false,
           message: errorMessage,
         });
+      } finally {
+        dispatch("setLoading");
       }
     },
   },

@@ -12,7 +12,6 @@ describe("paginationComponent", () => {
     });
 
     wrapper.findAll("button").trigger("click");
-
     expect(wrapper.emitted("changePage")).toBeTruthy();
   });
 
@@ -24,6 +23,7 @@ describe("paginationComponent", () => {
       },
     });
 
+    expect(wrapper.vm.lastPage).toEqual(10);
     expect(wrapper.vm.dinamicArray).toEqual([4, 5, 6]);
   });
 });

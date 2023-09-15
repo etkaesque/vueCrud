@@ -4,10 +4,8 @@
       <article>
         <div class="content">
           <h3 class="postTitle">{{ post.title }}</h3>
-
           <span>Written by: {{ post.author.name }}</span>
         </div>
-
         <DateComponent
           :created="post.created_at"
           :updated="post.updated_at"

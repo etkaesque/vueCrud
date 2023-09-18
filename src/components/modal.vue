@@ -23,7 +23,7 @@ export default {
     CreateAuthor,
   },
   computed: {
-    ...mapGetters(["activeTab", "serverResponse"]),
+    ...mapGetters(["activeTab"]),
   },
   methods: {
     ...mapMutations(["CONTROL_MODAL"]),

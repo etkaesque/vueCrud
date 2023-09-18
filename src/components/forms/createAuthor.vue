@@ -13,7 +13,7 @@
         maxlength="50"
       />
 
-      <div v-if="validationIsActive">
+      <div v-if="validationIsActive" class="validation-message">
         {{ validationMessage }}
       </div>
 

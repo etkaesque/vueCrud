@@ -24,7 +24,7 @@
         maxlength="1000"
       ></textarea>
 
-      <div v-if="validationIsActive">
+      <div v-if="validationIsActive" class="validation-message">
         {{ validationMessage }}
       </div>
 

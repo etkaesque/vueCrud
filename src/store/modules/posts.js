@@ -121,7 +121,7 @@ export default {
       }
     },
 
-    async deletePostInDb({ commit, dispatch }, post) {
+    async deletePostInDb({ dispatch }, post) {
       try {
         dispatch("setLoading");
         const response = await this.deletePost(post);

@@ -40,7 +40,7 @@
         </option>
       </select>
 
-      <div v-if="validationIsActive">
+      <div v-if="validationIsActive" class="validation-message">
         {{ validationMessage }}
       </div>
 

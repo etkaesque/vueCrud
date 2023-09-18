@@ -19,9 +19,6 @@
 import { mapMutations, mapGetters } from "vuex";
 
 export default {
-  components: {
-    Notification,
-  },
   computed: {
     ...mapGetters(["serverResponse"]),
   },

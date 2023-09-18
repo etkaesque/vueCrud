@@ -16,7 +16,6 @@
 export default {
   props: {
     heading: String,
-    isAuthors: Boolean,
     link: String,
     button: String,
   },

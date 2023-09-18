@@ -10,6 +10,8 @@ localVue.use(Vuex);
 describe("postComponent", () => {
   let store;
   let mutations;
+  let state;
+  let getters;
 
   beforeEach(() => {
     mutations = {
@@ -19,7 +21,11 @@ describe("postComponent", () => {
       CONTROL_ACTIVE_POST: vi.fn(),
     };
 
+    state = {};
+
     store = new Vuex.Store({
+      state,
+      getters,
       mutations,
     });
   });
@@ -91,11 +97,11 @@ describe("postComponent", () => {
     wrapper.vm.openModal();
 
     expect(mutations.CONTROL_MODAL).toHaveBeenCalled();
-    expect(mutations.CONTROL_ACTIVE_TAB).toHaveBeenCalled("Edit");
-    expect(mutations.SET_DELETE_NOTIFICATION).toHaveBeenCalled({
+    expect(mutations.CONTROL_ACTIVE_TAB).toBeCalledWith(state, "Edit");
+    expect(mutations.SET_DELETE_NOTIFICATION).toBeCalledWith(state, {
       success: "",
       message: "",
     });
-    expect(mutations.CONTROL_ACTIVE_POST).toHaveBeenCalled("1");
+    expect(mutations.CONTROL_ACTIVE_POST).toBeCalledWith(state, 1);
   });
 });

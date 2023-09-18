@@ -1,19 +1,6 @@
 <template>
   <div>
-    <div
-      v-if="deleteNotification.success === true"
-      class="notification success"
-    >
-      <h2>Success</h2>
-      <p>{{ deleteNotification.message }}</p>
-    </div>
-
-    <div v-else-if="deleteNotification.success === false" class="notification">
-      <h2>Failure</h2>
-      <p>{{ deleteNotification.message }}</p>
-    </div>
-
-    <div v-else class="overlay" @click="dismissFromOverlay">
+    <div class="overlay" @click="dismissFromOverlay">
       <div v-if="activeFor === `Post`" class="notification">
         <div>
           <h2>Warning!</h2>
@@ -21,7 +8,6 @@
             This post will be deleted. Ar you sure you want to delete this post?
           </p>
         </div>
-
         <div>
           <button @click="deletePost">Yes</button>
           <button @click="DISMISS">No</button>
@@ -36,7 +22,6 @@
             author?
           </p>
         </div>
-
         <div>
           <button @click="deleteAuthor">Yes</button>
           <button @click="DISMISS">No</button>
@@ -53,108 +38,36 @@ export default {
   computed: {
     ...mapGetters([
       "activePostId",
-      "deleteNotification",
-      "searchTerm",
-      "currentPage",
-      "posts",
-      "activeFor",
       "currentAuthorId",
-      "authorSearchTerm",
-      "authorCurentPage",
-      "authors",
+      "activeFor"
     ]),
   },
   methods: {
     ...mapMutations([
       "CONTROL_DELETE_NOTIFICATION",
-      "SET_DELETE_NOTIFICATION",
-      "SET_CURRENT_PAGE",
-      "CONTROL_CURRENT_AUTHOR",
       "UPDATE_SERVER_RESPONSE",
-      "SET_AUTHOR_CURRENT_PAGE",
     ]),
     ...mapActions([
       "deletePostInDb",
-      "setPosts",
       "deleteAuthorById",
-      "getAuthors",
     ]),
+
+    async clean() {
+      this.CONTROL_DELETE_NOTIFICATION()
+      setTimeout(() => {
+          this.UPDATE_SERVER_RESPONSE();
+        }, 3000);
+    },
     async deletePost() {
-      if (this.posts.length === 1) {
-        await this.deletePostInDb(this.activePostId);
-
-        this.SET_CURRENT_PAGE(this.currentPage - 1);
-
-        if (this.deleteNotification.success) {
-          await this.setPosts({
-            term: this.searchTerm,
-            page: this.currentPage,
-          });
-        }
-      } else {
-        await this.deletePostInDb(this.activePostId);
-
-        if (this.deleteNotification.success) {
-          await this.setPosts({
-            term: this.searchTerm,
-            page: this.currentPage,
-          });
-        }
-      }
-
-      if (
-        this.$route.path !== "/posts" &&
-        this.deleteNotification.success == true
-      ) {
-        this.$router.replace("/posts");
-        setTimeout(() => {
-          this.CONTROL_DELETE_NOTIFICATION();
-          this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
-        }, 2000);
-      } else if (
-        this.$route.path !== "/posts" &&
-        this.deleteNotification.success == false
-      ) {
-        setTimeout(() => {
-          this.CONTROL_DELETE_NOTIFICATION();
-          this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
-        }, 2000);
-      } else {
-        setTimeout(() => {
-          this.CONTROL_DELETE_NOTIFICATION();
-          this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
-        }, 2000);
-      }
+      await this.deletePostInDb(this.activePostId); 
+      if (this.$route.path !== "/posts") {
+        this.$router.replace("/posts")}
+      await this.clean()  
     },
     async deleteAuthor() {
-      if (this.authors.length === 1) {
-        await this.deleteAuthorById(this.currentAuthorId);
-
-        this.SET_AUTHOR_CURRENT_PAGE(this.authorCurentPage - 1);
-
-        if (this.deleteNotification.success) {
-          await this.getAuthors({
-            term: this.authorSearchTerm,
-            page: this.authorCurentPage,
-          });
-        }
-      } else {
-        await this.deleteAuthorById(this.currentAuthorId);
-
-        if (this.deleteNotification.success) {
-          await this.getAuthors({
-            term: this.authorSearchTerm,
-            page: this.authorCurentPage,
-          });
-        }
-      }
-
-      setTimeout(() => {
-        this.CONTROL_DELETE_NOTIFICATION();
-        this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
-      }, 2000);
+      await this.deleteAuthorById(this.currentAuthorId);
+      await this.clean()
     },
-
     DISMISS() {
       this.CONTROL_DELETE_NOTIFICATION();
     },

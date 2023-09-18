@@ -1,5 +1,5 @@
 import { shallowMount, mount, createLocalVue } from "@vue/test-utils";
-import { describe, it, expect, vitest, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import authorComponent from "../src/components/author.vue";
 import Vuex from "vuex";
 
@@ -10,6 +10,7 @@ localVue.use(Vuex);
 describe("authorComponent", () => {
   let store;
   let mutations;
+  let state;
 
   beforeEach(() => {
     mutations = {
@@ -20,8 +21,17 @@ describe("authorComponent", () => {
       SET_ACTIVE_FOR: vi.fn(),
     };
 
+    state = {
+
+      activeTab: "",
+      deleteNotification: { success: "", message: "" },
+      currentAuthorId: "",
+
+    }
+
     store = new Vuex.Store({
       mutations,
+      state,
     });
   });
 
@@ -59,14 +69,10 @@ describe("authorComponent", () => {
 
     expect(mutations.SET_ACTIVE_FOR).toHaveBeenCalled();
     expect(mutations.CONTROL_MODAL).toHaveBeenCalled();
-    expect(mutations.CONTROL_ACTIVE_TAB).toBeCalledWith({}, "EditAuthor");
-    expect(mutations.SET_DELETE_NOTIFICATION).toBeCalledWith(
-      {},
-      {
-        success: "",
-        message: "",
-      }
-    );
-    expect(mutations.CONTROL_CURRENT_AUTHOR).toBeCalledWith({}, 1);
+    expect(mutations.CONTROL_ACTIVE_TAB).toBeCalledWith(state, "EditAuthor");
+    expect(mutations.SET_DELETE_NOTIFICATION).toBeCalledWith(state, {success: "", message: ""});
+    expect(mutations.CONTROL_CURRENT_AUTHOR).toBeCalledWith(state, 1);
+
+
   });
 });

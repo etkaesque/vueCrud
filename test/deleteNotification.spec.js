@@ -16,59 +16,31 @@ describe("deleteNotification", () => {
 
   beforeEach(() => {
     getters = {
-      authors: (state) => state.authors,
+      activePostId: (state) => state.authors,
       currentAuthorId: (state) => state.currentAuthorId,
-      authorSearchTerm: (state) => state.authorSearchTerm,
-      authorCurentPage: (state) => state.authorCurentPage,
-      posts: (state) => state.posts,
-      currentPage: (state) => state.currentPage,
-      searchTerm: (state) => state.searchTerm,
-      deleteNotification: (state) => state.deleteNotification,
       activeFor: (state) => state.activeFor,
     };
 
+    mutations = {
+      UPDATE_SERVER_RESPONSE: vi.fn(),
+      CONTROL_DELETE_NOTIFICATION: vi.fn()
+    }
+
     actions = {
       deletePostInDb: vi.fn(),
-      setPosts: vi.fn(),
-      deleteAuthorById: vi.fn(),
-      getAuthors: vi.fn(),
     };
 
     state = {
       activeFor: `Author`,
-      authorCurentPage: 1,
-      authorSearchTerm: "",
-      authors: [{
-        name: "Edgaras",
-        id:1,
-        created_at: "2023-01-01"
-      }],
       currentAuthorId: 1,
-      currentPage: 1,
-      deleteNotification: {
-        message: "Delete is a success",
-        success: true,
-      },
-      posts: [],
-      searchTerm: "",
+      activePostId:1,
     };
 
     store = new Vuex.Store({
-      mutations,
       state,
       getters,
       actions,
     });
-  });
-
-  it("components recieve states from getters correctly", async () => {
-    const wrapper = shallowMount(deleteNotification, {
-      localVue,
-      store,
-    });
-
-    const deleteMessage = wrapper.find("p").text();
-    expect(deleteMessage).toBe("Delete is a success");
   });
 
   it("actions are working correctly", async () => {
@@ -81,8 +53,7 @@ describe("deleteNotification", () => {
     });
 
     await wrapper.vm.deletePost();
-
     expect(actions.deletePostInDb).toHaveBeenCalled();
-    expect(actions.setPosts).toHaveBeenCalled();
+
   });
 });

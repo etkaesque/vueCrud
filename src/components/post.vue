@@ -4,7 +4,7 @@
       <article>
         <div class="content">
           <h3 class="postTitle">{{ post.title }}</h3>
-          <span>Written by: {{ post.author.name }}</span>
+          <p class="author-name">Written by: {{ post.author.name }}</p>
         </div>
         <DateComponent
           :created="post.created_at"
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapMutations } from "vuex";
 import DateComponent from "./date.vue";
 
 export default {
@@ -35,18 +35,15 @@ export default {
       "CONTROL_ACTIVE_TAB",
       "CONTROL_ACTIVE_POST",
       "CONTROL_DELETE_NOTIFICATION",
-      "SET_DELETE_NOTIFICATION",
       "SET_ACTIVE_FOR",
     ]),
     openModal() {
       this.CONTROL_ACTIVE_POST(this.post.id);
-      this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
       this.CONTROL_ACTIVE_TAB("Edit");
       this.CONTROL_MODAL();
     },
     activateDeleteNotification() {
       this.SET_ACTIVE_FOR("Post");
-      this.SET_DELETE_NOTIFICATION({ success: "", message: "" });
       this.CONTROL_ACTIVE_POST(this.post.id);
       this.CONTROL_DELETE_NOTIFICATION();
     },

@@ -7,17 +7,18 @@
       :type="type"
       @openModal="openModalCreateAuthor"
     ></Header>
-    <Pagination
+
+    <main>
+      <Pagination
       :currentPage="authorCurentPage"
       :type="type"
       :fullArray="authorsPages"
       @changePage="changeAuthorPage"
-    ></Pagination>
-
-    <main>
+      ></Pagination>
+      
       <Search @search="searchAuthor"></Search>
 
-      <div v-if="authors.length !== 0">
+      <div v-if="authors.length !== 0" class="cardWrap">
         <div v-for="(author, index) in authors" :key="index">
           <Author
             :id="author.id"

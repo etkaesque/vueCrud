@@ -25,7 +25,6 @@ export default {
         state.posts = posts.data;
         state.postsCount = posts.headers["x-total-count"];
         let pages = posts.headers["x-total-count"] / state.postsPerPage;
-
         let roundPages = Math.ceil(pages);
 
         state.pages = state = Array.from(
@@ -37,7 +36,6 @@ export default {
     SET_CURRENT_POST(state, post) {
       state.currentPost = post;
     },
-
     SET_CURRENT_PAGE(state, page) {
       state.currentPage = page;
     },
@@ -49,6 +47,7 @@ export default {
   actions: {
     async setPosts({ commit, dispatch }, { term = "", page = 1 }) {
       try {
+        console.log("im here")
         dispatch("setLoading");
         const posts = await this.fetchPosts(term, page);
         commit("SET_POSTS", posts);
@@ -82,7 +81,7 @@ export default {
       }
     },
 
-    async createNewPostInDb({ commit, dispatch }, newPostData) {
+    async createNewPostInDb({ dispatch }, newPostData) {
       try {
         dispatch("setLoading");
         const response = await this.createNewPost(newPostData);
@@ -101,7 +100,7 @@ export default {
       }
     },
 
-    async updatePostInDb({ commit, dispatch }, updatedPostData) {
+    async updatePostInDb({ dispatch }, updatedPostData) {
       try {
         dispatch("setLoading");
         const response = await this.updatePost(updatedPostData);
@@ -121,17 +120,23 @@ export default {
       }
     },
 
-    async deletePostInDb({ dispatch }, post) {
+    async deletePostInDb({ commit, dispatch, getters }, post) {
       try {
         dispatch("setLoading");
-        const response = await this.deletePost(post);
 
-        dispatch("setDeleteNotification", {
+        const response = await this.deletePost(post);
+        if (getters.posts.length === 1) {
+          commit('SET_CURRENT_PAGE', (getters.currentPage - 1))
+        } 
+
+        dispatch("setPosts", {term : getters.searchTerm, page: getters.currentPage })
+
+        dispatch("setServerResponse", {
           success: true,
           message: response,
         });
       } catch (errorMessage) {
-        dispatch("setDeleteNotification", {
+        dispatch("setServerResponse", {
           success: false,
           message: errorMessage,
         });

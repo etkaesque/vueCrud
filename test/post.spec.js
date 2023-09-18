@@ -1,5 +1,5 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
-import { describe, it, expect, vitest, beforeEach, vi } from "vitest";
+import { shallowMount, mount, createLocalVue } from "@vue/test-utils";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import postComponent from "../src/components/post.vue";
 import Vuex from "vuex";
 
@@ -17,7 +17,6 @@ describe("postComponent", () => {
     mutations = {
       CONTROL_MODAL: vi.fn(),
       CONTROL_ACTIVE_TAB: vi.fn(),
-      SET_DELETE_NOTIFICATION: vi.fn(),
       CONTROL_ACTIVE_POST: vi.fn(),
     };
 
@@ -31,7 +30,7 @@ describe("postComponent", () => {
   });
 
   it("post component renders prop data correctly", async () => {
-    const wrapper = shallowMount(postComponent, {
+    const wrapper = mount(postComponent, {
       propsData: {
         post: {
           id: 1,
@@ -45,14 +44,17 @@ describe("postComponent", () => {
       },
     });
 
-    const dateComponent = wrapper.findComponent({ name: "DateComponent" });
+   
 
     const title = wrapper.find("h3").text();
-    const authorName = wrapper.find("span").text();
     expect(title).toBe("Test Title");
+
+    const authorName = wrapper.find(".author-name").text();
     expect(authorName).toBe("Written by: Test Name");
-    expect(dateComponent.props("created")).toBe("1802-02-23");
-    expect(dateComponent.props("updated")).toBe("2023-02-23");
+
+    const dateText = wrapper.find("span").text();
+    expect(dateText).toBe("Updated Date: 2023-02-23");
+   
   });
 
   it("routes are working correctly", async () => {
@@ -98,10 +100,6 @@ describe("postComponent", () => {
 
     expect(mutations.CONTROL_MODAL).toHaveBeenCalled();
     expect(mutations.CONTROL_ACTIVE_TAB).toBeCalledWith(state, "Edit");
-    expect(mutations.SET_DELETE_NOTIFICATION).toBeCalledWith(state, {
-      success: "",
-      message: "",
-    });
     expect(mutations.CONTROL_ACTIVE_POST).toBeCalledWith(state, 1);
   });
 });

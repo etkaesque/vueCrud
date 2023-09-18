@@ -63,6 +63,7 @@ export default {
   methods: {
     ...mapActions(["getPostById", "changePostPage", "setPosts"]),
     ...mapMutations([
+      "SET_ACTIVE_FOR",
       "CONTROL_MODAL",
       "CONTROL_ACTIVE_TAB",
       "CONTROL_ACTIVE_POST",
@@ -76,6 +77,7 @@ export default {
       this.CONTROL_MODAL();
     },
     activateDeleteNotification() {
+      this.SET_ACTIVE_FOR("Post");
       this.CONTROL_ACTIVE_POST(this.$route.params.id);
       this.CONTROL_DELETE_NOTIFICATION();
     },

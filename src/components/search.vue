@@ -8,7 +8,7 @@
         id="name"
         type="text"
         @keydown.enter.prevent
-        placeholder="search for an Author"
+        placeholder="Search"
       />
     </div>
   </div>

@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
-import { describe, it, expect, vitest, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import authorComponent from "../src/components/forms/editAuthor.vue";
 import Vuex from "vuex";
 
@@ -34,7 +34,15 @@ describe("authorComponent", () => {
       authorCurentPage: (state) => state.authorCurentPage,
     };
 
-    state = {};
+    state = {
+      currentAuthorId: 1,
+      serverResponse: {success: "", message: ""},
+      author: {
+        name: "Edgaras"
+      },
+      authorSearchTerm: "",
+      authorCurentPage: ""
+    };
 
     store = new Vuex.Store({
       mutations,
@@ -50,8 +58,8 @@ describe("authorComponent", () => {
       store,
     });
 
-    const titleInput = wrapper.find("#name");
-    titleInput.setValue("This is a name");
+    const nameInput = wrapper.find("#name");
+    nameInput.setValue("This is a name");
 
     expect(wrapper.vm.formData.name).toBe("This is a name");
   });

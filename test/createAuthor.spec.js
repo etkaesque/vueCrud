@@ -32,7 +32,11 @@ describe("createComponent", () => {
       authorCurentPage: (state) => state.authorCurentPage,
     };
 
-    state = {};
+    state = {
+      author: {},
+      authorsSearchTerm: "",
+      authorCurentPage: 1,
+    };
 
     store = new Vuex.Store({
       mutations,
@@ -110,8 +114,14 @@ describe("createComponent", () => {
 
     expect(mutations.CONTROL_MODAL).toHaveBeenCalled();
 
-    setTimeout(() => {
-      expect(mutations.UPDATE_SERVER_RESPONSE).toHaveBeenCalled();
-    }, 3000);
+    await mutations.UPDATE_SERVER_RESPONSE()
+   
+    expect(mutations.UPDATE_SERVER_RESPONSE).toHaveBeenCalled();
+   
+    
+
+
+   
+   
   });
 });

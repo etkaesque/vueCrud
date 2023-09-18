@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Vue from "vue";
+
 import Loader from "./components/loader.vue"
 import GeneralNotification from "./components/notification.vue";
 import Modal from "./components/modal.vue";
@@ -51,9 +51,10 @@ body {
   margin: 0px;
 }
 
-main div {
-  display: flex;
+.cardWrap {
+  display: flex; 
   flex-wrap: wrap;
   gap: 20px;
 }
+
 </style>

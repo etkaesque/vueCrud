@@ -47,7 +47,7 @@ export default {
       }
     },
 
-    async updateAuthor({ commit, dispatch }, updatedAuthorData) {
+    async updateAuthor({dispatch}, updatedAuthorData) {
       try {
         const response = await this.updateAuthorInDb(updatedAuthorData);
 
@@ -62,7 +62,7 @@ export default {
         });
       }
     },
-    async createAuthor({ commit, dispatch }, newAuthorData) {
+    async createAuthor({ dispatch }, newAuthorData) {
       try {
         const response = await this.createAuthorInDb(newAuthorData);
 
@@ -77,16 +77,22 @@ export default {
         });
       }
     },
-    async deleteAuthorById({ commit, dispatch }, id) {
+    async deleteAuthorById({ commit, dispatch, getters }, id) {
       try {
         dispatch("setLoading");
+
         const response = await this.deleteAuthorInDb(id);
-        dispatch("setDeleteNotification", {
+        if (getters.authors.length === 1) {
+          commit('CONTROL_CURRENT_AUTHOR', (getters.authorCurentPage - 1))
+        } 
+
+        dispatch("getAuthors", {term : getters.authorSearchTerm, page: getters.authorCurentPage })
+        dispatch("setServerResponse", {
           success: true,
           message: response,
         });
       } catch (errorMessage) {
-        dispatch("setDeleteNotification", {
+        dispatch("setServerResponse", {
           success: false,
           message: errorMessage,
         });      } finally {

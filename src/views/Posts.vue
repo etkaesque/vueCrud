@@ -6,17 +6,19 @@
       :button="button"
       @openModal="openModalCreatePost"
     ></Header>
+    
+    <main>
 
-    <Pagination
+      <Pagination
       :currentPage="currentPage"
       :type="type"
       :fullArray="pages"
       @changePage="changePostPage"
-    ></Pagination>
+      ></Pagination>
 
-    <main>
       <Search @search="searchPost"></Search>
-      <div v-if="posts.length !== 0">
+        
+      <div v-if="posts.length !== 0" class="cardWrap">
         <div v-for="(post, index) in posts" :key="index">
           <Post :post="post"> </Post>
         </div>
@@ -25,6 +27,7 @@
       <div v-if="posts.length == 0">
         <p>No results were found.</p>
       </div>
+
     </main>
   </div>
 </template>
@@ -95,3 +98,4 @@ export default {
   },
 };
 </script>
+

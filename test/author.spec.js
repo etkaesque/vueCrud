@@ -16,17 +16,16 @@ describe("authorComponent", () => {
     mutations = {
       CONTROL_MODAL: vi.fn(),
       CONTROL_ACTIVE_TAB: vi.fn(),
-      SET_DELETE_NOTIFICATION: vi.fn(),
+      CONTROL_DELETE_NOTIFICATION: vi.fn(),
       CONTROL_CURRENT_AUTHOR: vi.fn(),
       SET_ACTIVE_FOR: vi.fn(),
+
     };
 
     state = {
-
       activeTab: "",
       deleteNotification: { success: "", message: "" },
       currentAuthorId: "",
-
     }
 
     store = new Vuex.Store({
@@ -35,7 +34,7 @@ describe("authorComponent", () => {
     });
   });
 
-  it("author and date component renders prop data correctly", async () => {
+  it("author and date component renders prop data correctly", () => {
     const wrapper = mount(authorComponent, {
       propsData: {
         id: 1,
@@ -52,7 +51,7 @@ describe("authorComponent", () => {
     expect(dateText).toBe("Updated Date: 2023-02-23");
   });
 
-  it("component mutations works correctly", async () => {
+  it("component mutations works correctly", () => {
     const wrapper = shallowMount(authorComponent, {
       localVue,
       store,
@@ -69,8 +68,8 @@ describe("authorComponent", () => {
 
     expect(mutations.SET_ACTIVE_FOR).toHaveBeenCalled();
     expect(mutations.CONTROL_MODAL).toHaveBeenCalled();
+    expect(mutations.CONTROL_DELETE_NOTIFICATION).toHaveBeenCalled()
     expect(mutations.CONTROL_ACTIVE_TAB).toBeCalledWith(state, "EditAuthor");
-    expect(mutations.SET_DELETE_NOTIFICATION).toBeCalledWith(state, {success: "", message: ""});
     expect(mutations.CONTROL_CURRENT_AUTHOR).toBeCalledWith(state, 1);
 
 

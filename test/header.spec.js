@@ -34,7 +34,7 @@ describe("headerComponent", () => {
     expect(button).toBe("Posts");
   });
 
-  it("button is working correctly", async () => {
+  it("button is working correctly", () => {
     const wrapper = shallowMount(headerComponent, {
       propsData: {
         heading: "Posts",
@@ -44,7 +44,7 @@ describe("headerComponent", () => {
     });
 
     const button = wrapper.find("button");
-    await button.trigger("click");
+    button.trigger("click");
     wrapper.vm.openModal();
   });
 });

@@ -4,7 +4,6 @@ import createComponent from "../src/components/forms/createAuthor.vue";
 import Vuex from "vuex";
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
 
 describe("createComponent", () => {
@@ -46,7 +45,7 @@ describe("createComponent", () => {
     });
   });
 
-  it("inputs are working", async () => {
+  it("inputs are working", () => {
     const wrapper = shallowMount(createComponent, {
       localVue,
       store,
@@ -82,7 +81,7 @@ describe("createComponent", () => {
       store,
     });
 
-    await wrapper.setData({
+    wrapper.setData({
       formData: {
         name: "wwwwwwwwwwwwwwwwwwww",
         created_at: "2023-02-01",
@@ -102,7 +101,7 @@ describe("createComponent", () => {
       store,
     });
 
-    await wrapper.setData({
+    wrapper.setData({
       formData: {
         name: "wwwwwwwwwwwwwwwwwwww",
         created_at: "2023-02-01",
@@ -111,17 +110,9 @@ describe("createComponent", () => {
     });
 
     await wrapper.vm.submit({ preventDefault: vi.fn() });
-
     expect(mutations.CONTROL_MODAL).toHaveBeenCalled();
 
-    await mutations.UPDATE_SERVER_RESPONSE()
-   
+    await mutations.UPDATE_SERVER_RESPONSE();
     expect(mutations.UPDATE_SERVER_RESPONSE).toHaveBeenCalled();
-   
-    
-
-
-   
-   
   });
 });

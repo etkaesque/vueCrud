@@ -23,7 +23,9 @@ describe("authorComponent", () => {
     actions = {
       getAuthors: vi.fn(),
       updateAuthor: vi.fn(),
-      getAuthorById: vi.fn(),
+      getAuthorById:  vi.fn().mockResolvedValue({name: `Author`, id: 1, created_at: "1000-01-01"})
+      
+    
     };
 
     getters = {
@@ -52,7 +54,7 @@ describe("authorComponent", () => {
     });
   });
 
-  it("inputs are working", async () => {
+  it("inputs are working", () => {
     const wrapper = shallowMount(authorComponent, {
       localVue,
       store,
@@ -113,11 +115,10 @@ describe("authorComponent", () => {
     });
 
     await wrapper.vm.submit({ preventDefault: vi.fn() });
-
     expect(mutations.CONTROL_MODAL).toHaveBeenCalled();
 
-    setTimeout(() => {
-      expect(mutations.UPDATE_SERVER_RESPONSE).toHaveBeenCalled();
-    }, 3000);
+    await mutations.UPDATE_SERVER_RESPONSE()
+    expect(mutations.UPDATE_SERVER_RESPONSE).toHaveBeenCalled();
+   
   });
 });

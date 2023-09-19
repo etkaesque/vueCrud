@@ -2,7 +2,7 @@
   <div class="pagWrap">
     <div v-if="dinamicArray.length != 0" class="pags">
       <div v-if="!dinamicArray.includes(1)" class="edge">
-        <button @click="changePage(1)">1</button>
+        <button @click="changePage(1)" id="firstBtn">1</button>
         <span class="dotdotdot">...</span>
       </div>
 
@@ -17,7 +17,7 @@
 
       <div v-if="!dinamicArray.includes(lastPage)" class="edge">
         <span class="dotdotdot">...</span>
-        <button @click="changePage(lastPage)">
+        <button @click="changePage(lastPage)" id="lastBtn">
           {{ lastPage }}
         </button>
       </div>

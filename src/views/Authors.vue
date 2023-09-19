@@ -10,12 +10,12 @@
 
     <main>
       <Pagination
-      :currentPage="authorCurentPage"
-      :type="type"
-      :fullArray="authorsPages"
-      @changePage="changeAuthorPage"
+        :currentPage="authorCurentPage"
+        :type="type"
+        :fullArray="authorsPages"
+        @changePage="changeAuthorPage"
       ></Pagination>
-      
+
       <Search @search="searchAuthor"></Search>
 
       <div v-if="authors.length !== 0" class="cardWrap">
@@ -92,6 +92,7 @@ export default {
       this.CONTROL_ACTIVE_TAB("CreateAuthor");
       this.CONTROL_MODAL();
     },
+
     async searchAuthor(searchTerm) {
       this.SET_AUTHOR_SEARCH_TERM(searchTerm);
       await this.getAuthors({

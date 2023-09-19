@@ -12,7 +12,6 @@ describe("dateComponent", () => {
     });
 
     const dateText = wrapper.find("span").text();
-
     expect(dateText).toBe("Updated Date: 2023-10-01");
   });
 });

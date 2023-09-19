@@ -57,4 +57,10 @@ body {
   gap: 20px;
 }
 
+.cardWrap div {
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+}
+
 </style>

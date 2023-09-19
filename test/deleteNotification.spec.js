@@ -23,8 +23,8 @@ describe("deleteNotification", () => {
 
     mutations = {
       UPDATE_SERVER_RESPONSE: vi.fn(),
-      CONTROL_DELETE_NOTIFICATION: vi.fn()
-    }
+      CONTROL_DELETE_NOTIFICATION: vi.fn(),
+    };
 
     actions = {
       deletePostInDb: vi.fn(),
@@ -33,10 +33,11 @@ describe("deleteNotification", () => {
     state = {
       activeFor: `Author`,
       currentAuthorId: 1,
-      activePostId:1,
+      activePostId: 1,
     };
 
     store = new Vuex.Store({
+      mutations,
       state,
       getters,
       actions,
@@ -54,6 +55,7 @@ describe("deleteNotification", () => {
 
     await wrapper.vm.deletePost();
     expect(actions.deletePostInDb).toHaveBeenCalled();
-
+    expect(mutations.UPDATE_SERVER_RESPONSE).toHaveBeenCalled();
+    expect(mutations.CONTROL_DELETE_NOTIFICATION).toHaveBeenCalled();
   });
 });

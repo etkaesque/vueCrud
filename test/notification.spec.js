@@ -1,10 +1,9 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
-import { describe, it, expect, vitest, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import notificationComponent from "../src/components/notification.vue";
 import Vuex from "vuex";
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
 
 describe("notificationComponent", () => {
@@ -38,7 +37,7 @@ describe("notificationComponent", () => {
     });
   });
 
-  it("recieves state from getters correctly", async () => {
+  it("recieves state from getters correctly",  () => {
     const wrapper = shallowMount(notificationComponent, {
       localVue,
       store,
@@ -49,7 +48,7 @@ describe("notificationComponent", () => {
     expect(paragraphText).toBe("Success");
   });
 
-  it("nofitication rendens correctly", async () => {
+  it("nofitication rendens correctly",  () => {
     const wrapper = shallowMount(notificationComponent, {
       localVue,
       store,
@@ -58,7 +57,7 @@ describe("notificationComponent", () => {
     expect(wrapper.find(".notification").exists()).toBe(true);
   });
 
-  it("component mutations works correctly", async () => {
+  it("component mutations works correctly",  () => {
     const wrapper = shallowMount(notificationComponent, {
       localVue,
       store,

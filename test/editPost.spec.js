@@ -23,7 +23,7 @@ describe("editComponent", () => {
     actions = {
       getAuthors: vi.fn(),
       updatePostInDb: vi.fn(),
-      getPostById: vi.fn(),
+      getPostById: vi.fn().mockResolvedValue({title: `Great Title`, id: 1, created_at: "1888-08-18"}),
       setPosts: vi.fn(),
     };
 
@@ -35,7 +35,15 @@ describe("editComponent", () => {
       currentPage: (state) => state.currentPage,
     };
 
-    state = {};
+    state = {
+      activePostId: "",
+      serverResponse: "",
+      currentPost: "",
+      searchTerm: "",
+      currentPage: "",
+
+
+    };
 
     store = new Vuex.Store({
       mutations,
@@ -45,7 +53,7 @@ describe("editComponent", () => {
     });
   });
 
-  it("inputs are working", async () => {
+  it("inputs are working", () => {
     const wrapper = shallowMount(editComponent, {
       localVue,
       store,
@@ -102,7 +110,7 @@ describe("editComponent", () => {
       store,
     });
 
-    await wrapper.setData({
+    wrapper.setData({
       formData: {
         title: "wwwwwwwwwwwwwwwwwwww",
         body: "aaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -114,9 +122,10 @@ describe("editComponent", () => {
 
     expect(mutations.CONTROL_MODAL).toHaveBeenCalled();
 
-    setTimeout(() => {
-      expect(mutations.UPDATE_SERVER_RESPONSE).toHaveBeenCalled();
-    }, 3000);
+    await mutations.UPDATE_SERVER_RESPONSE()
+
+    expect(mutations.UPDATE_SERVER_RESPONSE).toHaveBeenCalled();
+
   });
 
 

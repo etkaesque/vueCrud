@@ -20,7 +20,15 @@ describe("postComponent", () => {
       CONTROL_ACTIVE_POST: vi.fn(),
     };
 
-    state = {};
+    getters = {
+      activeTab: (state) => state.activeTab,
+      activePostId: (state) => state.activePostId,
+    };
+
+    state = {
+      activeTab: "",
+      activePostId: "",
+    };
 
     store = new Vuex.Store({
       state,
@@ -29,7 +37,7 @@ describe("postComponent", () => {
     });
   });
 
-  it("post component renders prop data correctly", async () => {
+  it("post component renders prop data correctly", () => {
     const wrapper = mount(postComponent, {
       propsData: {
         post: {
@@ -44,8 +52,6 @@ describe("postComponent", () => {
       },
     });
 
-   
-
     const title = wrapper.find("h3").text();
     expect(title).toBe("Test Title");
 
@@ -54,10 +60,9 @@ describe("postComponent", () => {
 
     const dateText = wrapper.find("span").text();
     expect(dateText).toBe("Updated Date: 2023-02-23");
-   
   });
 
-  it("routes are working correctly", async () => {
+  it("routes are working correctly", () => {
     const wrapper = shallowMount(postComponent, {
       propsData: {
         post: {
@@ -79,7 +84,7 @@ describe("postComponent", () => {
     wrapperPath.match(`post/1`);
   });
 
-  it("component mutations works correctly", async () => {
+  it("component mutations works correctly", () => {
     const wrapper = shallowMount(postComponent, {
       localVue,
       store,

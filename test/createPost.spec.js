@@ -16,12 +16,11 @@ describe("createComponent", () => {
 
   beforeEach(() => {
     mutations = {
-      CONTROL_MODAL:vi.fn(),
+      CONTROL_MODAL: vi.fn(),
       UPDATE_SERVER_RESPONSE: vi.fn(),
     };
 
     actions = {
-    
       getAuthors: vi.fn(),
       createNewPostInDb: vi.fn(),
       getPostById: vi.fn(),
@@ -44,7 +43,6 @@ describe("createComponent", () => {
       currentPost: 1,
       searchTerm: "",
       currentPage: 1,
-  
     };
 
     store = new Vuex.Store({
@@ -55,13 +53,13 @@ describe("createComponent", () => {
     });
   });
 
-  it("inputs are working", async () => {
+  it("inputs are working", () => {
     const wrapper = shallowMount(createComponent, {
       localVue,
       store,
     });
 
-    await wrapper.setData({
+    wrapper.setData({
       formData: {
         authorId: 1,
       },
@@ -75,7 +73,6 @@ describe("createComponent", () => {
 
     expect(wrapper.vm.formData.title).toBe("wdawdwadwa");
     expect(wrapper.vm.formData.body).toBe("wdawdwadadawdwaddwa");
-
   });
 
   it("validation is working correctly", async () => {
@@ -84,7 +81,7 @@ describe("createComponent", () => {
       store,
     });
 
-    await wrapper.setData({
+    wrapper.setData({
       formData: {
         title: "1",
         body: "This is content",
@@ -105,7 +102,7 @@ describe("createComponent", () => {
       store,
     });
 
-    await wrapper.setData({
+    wrapper.setData({
       formData: {
         title: "wwwwwwwwwwwwwwwwwwww",
         body: "This is content",
@@ -125,7 +122,7 @@ describe("createComponent", () => {
       store,
     });
 
-    await wrapper.setData({
+    wrapper.setData({
       formData: {
         title: "wwwwwwwwwwwwwwwwwwww",
         body: "aaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -136,8 +133,7 @@ describe("createComponent", () => {
 
     await wrapper.vm.submit({ preventDefault: vi.fn() });
 
-    await mutations.UPDATE_SERVER_RESPONSE()
+    await mutations.UPDATE_SERVER_RESPONSE();
     expect(mutations.UPDATE_SERVER_RESPONSE).toHaveBeenCalled();
-  
   });
 });

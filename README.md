@@ -1,10 +1,14 @@
-# Vue 2 + Vite
+# Vue 2, Vuex 3, Vite
 
-This skeleton project should help get you started developing with Vue 2 in Vite. 
+A crud application with unit testing.
 
-## Getting started
-To install necessary packages, run this command:
-```npm install ```
 
-To start your project:
-``` npm run dev```
+1. To install necessary packages, run this command:
+npm install 
+
+2. To simulate a database, run: 
+
+json-server --watch db.json
+
+3. Start a project:
+npm run dev

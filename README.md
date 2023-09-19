@@ -7,7 +7,6 @@ A crud application with unit testing.
 npm install 
 
 2. To simulate a database, run: 
-
 json-server --watch db.json
 
 3. Start a project:
